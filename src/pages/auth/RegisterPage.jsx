@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { Mail, Lock, User, CheckSquare, AlertCircle } from "lucide-react";
@@ -6,7 +6,14 @@ import "./auth.css";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
-    const { register } = useAuth();
+    const { register, isAuthenticated } = useAuth();
+
+    // Redirect to dashboard if already logged in
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/dashboard");
+        }
+    }, [isAuthenticated, navigate]);
 
     const [formData, setFormData] = useState({ username: "", email: "", password: "", confirmPassword: "" });
     const [error, setError] = useState("");
