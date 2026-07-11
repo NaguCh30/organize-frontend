@@ -92,11 +92,12 @@
     margin: 0;
 }
 
-/* Two-column layout */
+/* Two-column layout — equal width, both cards stretch to the same height */
 .dashboard-cols {
     display: grid;
-    grid-template-columns: 1.2fr 1.8fr;
+    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
+    align-items: stretch;
 }
 
 .trend-header {
@@ -122,7 +123,7 @@
 
 /* Progress-bar design */
 .progress-bar-bg {
-    width: 1005;
+    width: 100%;
     height: 10px;
     background: var(--bg-tertiary);
     border-radius: 5px;
@@ -294,6 +295,7 @@
 .today-schedule-card {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .today-schedule-card .card-header-title {
