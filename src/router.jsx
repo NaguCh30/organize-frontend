@@ -9,6 +9,7 @@ import TasksPage from "./pages/tasks/TasksPage";
 import SchedulePage from "./pages/schedule/SchedulePage";
 import AiPage from "./pages/ai/AIPage";
 import GoalDetailsPage from "./pages/goals/GoalDetailsPage";
+import AboutPage from "./pages/about/AboutPage";
 
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import Layout from "./components/layout/Layout";
@@ -42,8 +43,12 @@ const router = createBrowserRouter([
                 element: <GoalsPage />
             },
             {
-                path:"/goals/:goalId",
-                element:<GoalDetailsPage/>
+                path: "/goals/:goalId",
+                element: <GoalDetailsPage/>
+            },
+            {
+                path: "/tasks",
+                element: <TasksPage />
             },
             {
                 path: "/schedule",
@@ -52,6 +57,10 @@ const router = createBrowserRouter([
             {
                 path: "/ai",
                 element: <AiPage />
+            },
+            {
+                path: "/about",
+                element: <AboutPage />
             }
         ]
     }

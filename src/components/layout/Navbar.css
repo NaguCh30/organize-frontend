@@ -1,0 +1,232 @@
+/* mobile-header top navbar (visible on mobile only) */
+.mobile-header {
+    display: none;
+    height: 60px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.25rem;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.mobile-header .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.mobile-header .logo span {
+    font-family: var(--heading);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--text-heading);
+}
+
+.mobile-header .logo-icon {
+    color: var(--primary);
+}
+
+.mobile-header .menu-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-header .menu-btn:hover {
+    color: var(--primary);
+}
+
+/* Sidebar structure */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 95;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-brand {
+    padding: 2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.sidebar-brand span {
+    font-family: var(--heading);
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--text-heading);
+    letter-spacing: -0.03em;
+}
+
+.sidebar-brand .brand-logo {
+    color: var(--primary);
+}
+
+/* Nav Menu Links Styling */
+.nav-menu {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.8rem 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--text-heading);
+    background: var(--bg-tertiary);
+}
+
+.nav-link.active {
+    color: #ffffff;
+    background: var(--primary);
+    box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.nav-link.active .nav-icon {
+    color: #ffffff;
+}
+
+.nav-link .nav-icon {
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover .nav-icon {
+    color: var(--primary);
+}
+
+/* AI link custom animations */
+.nav-link.ai-link {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link.ai-link::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.05), transparent);
+    transform: translateX(-100%);
+}
+
+.nav-link.ai-link:hover::after {
+    animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.nav-link.ai-link .nav-icon {
+    color: var(--primary);
+}
+
+/* Sidebar Footer & Logout */
+.sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 0.75rem;
+}
+
+.logout-btn:hover {
+    border-color: var(--priority-high);
+    color: var(--priority-high);
+    background: var(--priority-high-bg);
+}
+
+/* Overlay for Mobile backdrop */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 90;
+    animation: fadeInOverlay 0.2s ease;
+}
+
+@keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive configurations */
+@media (min-width: 769px) {
+    /* Offset ONLY authenticated pages that have the sidebar */
+    .has-sidebar {
+        padding-left: 260px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-header {
+        display: flex;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        height: 100vh;
+        top: 0;
+        bottom: 0;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    body {
+        padding-top: 60px; /* offset for top toolbar on mobile */
+    }
+}

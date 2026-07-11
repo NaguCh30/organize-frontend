@@ -5,6 +5,9 @@ const taskService={
     getTasks:(goalId)=>
         request(`/goals/${goalId}/tasks`),
 
+    getAllTasks: () =>
+        request('/tasks'),
+
     getTask:(taskId)=>
         request(`/tasks/${taskId}`),
 

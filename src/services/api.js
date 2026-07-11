@@ -1,5 +1,5 @@
 import API_BASE_URL from "../config/api";
-import { getToken } from "../utils/storage";
+import { getToken, clearStorage } from "../utils/storage";
 
 async function request(endpoint, options = {}) {
     const token = getToken();
@@ -9,7 +9,7 @@ async function request(endpoint, options = {}) {
         ...options.headers,
     };
 
-    if (token) {
+    if (token && !endpoint.includes("/auth/")) {
         headers.Authorization = `Bearer ${token}`;
     }
 
@@ -18,15 +18,28 @@ async function request(endpoint, options = {}) {
         headers,
     });
 
-    const data = await response.json();
+    if ((response.status === 401 || response.status === 403) && !endpoint.includes("/auth/")) {
+        clearStorage();
+        window.location.href = "/login";
+        throw new Error("Session expired. Please log in again.");
+    }
+
+    let data = {};
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+        try {
+            data = await response.json();
+        } catch (e) {
+            // Safe fallback if JSON parsing fails on empty/malformed text
+        }
+    }
 
     if (!response.ok) {
-
-        if (data.message) {
+        if (data && data.message) {
             throw new Error(data.message);
         }
 
-        if (typeof data === "object") {
+        if (data && typeof data === "object" && Object.keys(data).length > 0) {
             throw new Error(Object.values(data).join("\n"));
         }
 

@@ -1,61 +1,93 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import { 
+    LayoutDashboard, 
+    Target, 
+    Calendar, 
+    Sparkles, 
+    Info, 
+    LogOut, 
+    Menu, 
+    X,
+    CheckSquare
+} from "lucide-react";
+import "./Navbar.css";
 
 export default function Navbar() {
-
     const { logout } = useAuth();
     const navigate = useNavigate();
-
-    const [open, setOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     function handleLogout() {
         logout();
         navigate("/login");
+        setIsOpen(false);
     }
 
     return (
-        <header className="navbar">
-
-            <div className="logo">
-
-                <span>Organize</span>
-
-            </div>
-
-            <button
-                className="menu-btn"
-                onClick={() => setOpen(!open)}
-            >
-                ☰
-            </button>
-
-            <nav className={open ? "nav-links active" : "nav-links"}>
-
-                <NavLink to="/dashboard">Dashboard</NavLink>
-
-                <NavLink to="/goals">Goals</NavLink>
-
-                <NavLink to="/schedule">Schedule</NavLink>
-
-                <NavLink
-                    to="/ai"
-                    className={({ isActive }) =>
-                        isActive ? "ai-link active" : "ai-link"
-                    }
+        <>
+            {/* Topbar for mobile view */}
+            <header className="mobile-header">
+                <div className="logo" onClick={() => navigate("/dashboard")}>
+                    <CheckSquare className="logo-icon" />
+                    <span>Organize</span>
+                </div>
+                <button 
+                    className="menu-btn" 
+                    onClick={() => setIsOpen(!isOpen)} 
+                    aria-label="Toggle Menu"
                 >
-                    AI
-                </NavLink>
-
-                <button
-                    className="logout-btn"
-                    onClick={handleLogout}
-                >
-                    Logout
+                    {isOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
+            </header>
 
-            </nav>
+            {/* Sidebar Navigation */}
+            <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+                <div className="sidebar-brand" onClick={() => { navigate("/dashboard"); setIsOpen(false); }}>
+                    <CheckSquare className="brand-logo" />
+                    <span>Organize</span>
+                </div>
 
-        </header>
+                <nav className="nav-menu">
+                    <NavLink 
+                        to="/dashboard" 
+                        onClick={() => setIsOpen(false)}
+                        className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                    >
+                        <LayoutDashboard size={20} className="nav-icon" />
+                        <span>Dashboard</span>
+                    </NavLink>
+
+                    <NavLink 
+                        to="/ai" 
+                        onClick={() => setIsOpen(false)}
+                        className={({ isActive }) => `nav-link ai-link ${isActive ? "active" : ""}`}
+                    >
+                        <Sparkles size={20} className="nav-icon" />
+                        <span>Organize AI</span>
+                    </NavLink>
+
+                    <NavLink 
+                        to="/about" 
+                        onClick={() => setIsOpen(false)}
+                        className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                    >
+                        <Info size={20} className="nav-icon" />
+                        <span>About Organize</span>
+                    </NavLink>
+                </nav>
+
+                <div className="sidebar-footer">
+                    <button className="logout-btn" onClick={handleLogout}>
+                        <LogOut size={20} className="logout-icon" />
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </aside>
+
+            {/* Overlay for mobile backdrop */}
+            {isOpen && <div className="sidebar-overlay" onClick={() => setIsOpen(false)}></div>}
+        </>
     );
 }
