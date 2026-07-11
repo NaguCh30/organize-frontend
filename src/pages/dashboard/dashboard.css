@@ -119,6 +119,19 @@
 .progress-card p {
     font-size: 0.9rem;
     margin-bottom: 1.25rem;
+    color: var(--text-muted);
+}
+
+/* progress-card stretches to the same height as the schedule card */
+.progress-card {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Push the Quick Navigation shortcuts to the bottom of the card */
+.dashboard-shortcuts {
+    margin-top: auto;
+    padding-top: 1.5rem;
 }
 
 /* Progress-bar design */
@@ -145,15 +158,6 @@
     letter-spacing: 0.05em;
     margin-bottom: 0.75rem;
     font-weight: 600;
-}
-
-.shortcut-buttons {
-    display: flex;
-    gap: 0.75rem;
-}
-
-.shortcut-buttons button {
-    flex: 1;
 }
 
 /* Recent Goals Card & items */
@@ -312,8 +316,10 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    overflow-y: auto;
     flex: 1;
+    overflow-y: auto;
+    max-height: 380px;
+    padding-right: 2px; /* prevent scrollbar from clipping */
 }
 
 .task-item-dash {
